@@ -13,6 +13,7 @@
         </el-select>
         <el-button type="primary" :disabled="!auth.isOperator" :loading="running" @click="execute">执行轧差</el-button>
         <el-button @click="loadRuns">刷新批次</el-button>
+        <el-button @click="$router.push('/netting-queue')">任务队列</el-button>
       </div>
     </div>
 

@@ -6,6 +6,7 @@
     <div class="toolbar">
       <el-button @click="$router.back()">返回</el-button>
       <el-button @click="load">刷新</el-button>
+      <el-button @click="$router.push('/netting-queue')">任务队列</el-button>
       <el-button
         type="success"
         :disabled="!auth.isOperator || detail?.run?.status !== 'COMPLETED' || alreadySettled"
