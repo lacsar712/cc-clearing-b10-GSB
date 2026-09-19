@@ -49,7 +49,8 @@ docker compose down
 5. 「轧差执行」选择 settleDate + currency（如 USD），执行轧差
 6. 确认净头寸表 ΣnetAmount = 0，批次状态 COMPLETED
 7. 进入批次详情，点击 Settle，义务变为 SETTLED
-8. 使用 `viewer` 登录，确认只能浏览、无法执行写操作
+8. 「轧差队列」添加两项「交割日 + 币种」任务并提交，观察队列页按 # 顺序推进：等待 → 进行 → 完成/失败（页上写明失败策略：单项失败默认继续后续任务，不清空队列）；无 OPEN 义务的日期会失败但不影响后续任务
+9. 使用 `viewer` 登录，确认只能浏览、无法执行写操作
 
 健康检查：
 
@@ -64,6 +65,20 @@ curl -X POST http://localhost:8171/api/auth/login \
   -H "Content-Type: application/json" \
   -d "{\"username\":\"operator\",\"password\":\"op123456\"}"
 ```
+
+任务队列 API（需 operator token）：
+
+```bash
+# 提交两项任务，后台串行执行
+curl -X POST http://localhost:8171/api/netting-queue \
+  -H "Authorization: Bearer <token>" -H "Content-Type: application/json" \
+  -d '{"items":[{"settleDate":"2026-09-19","currency":"USD"},{"settleDate":"2026-09-20","currency":"USD"}]}'
+
+# 查看队列（等待/进行/完成/失败）
+curl http://localhost:8171/api/netting-queue -H "Authorization: Bearer <token>"
+```
+
+任务间默认停顿 1s 以便观察串行推进，可用 `NETTING_QUEUE_TASK_DELAY_MS` 调整。
 
 ## 技术栈
 

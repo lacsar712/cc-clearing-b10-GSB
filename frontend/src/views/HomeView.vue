@@ -21,7 +21,10 @@
     <div class="card-panel" style="margin-top:16px">
       <div class="toolbar" style="justify-content:space-between">
         <strong>最近轧差批次</strong>
-        <el-button type="primary" @click="$router.push('/netting')">去执行轧差</el-button>
+        <div>
+          <el-button @click="$router.push('/netting-queue')">任务队列</el-button>
+          <el-button type="primary" @click="$router.push('/netting')">去执行轧差</el-button>
+        </div>
       </div>
       <el-table :data="runs" stripe v-loading="loading">
         <el-table-column prop="runId" label="Run ID" min-width="220">

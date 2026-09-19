@@ -3,11 +3,13 @@ package com.clearing.netting.adapter.out.persistence;
 import com.clearing.netting.adapter.out.persistence.entity.MemberJpaEntity;
 import com.clearing.netting.adapter.out.persistence.entity.NetPositionJpaEntity;
 import com.clearing.netting.adapter.out.persistence.entity.NettingRunJpaEntity;
+import com.clearing.netting.adapter.out.persistence.entity.NettingTaskJpaEntity;
 import com.clearing.netting.adapter.out.persistence.entity.ObligationJpaEntity;
 import com.clearing.netting.adapter.out.persistence.entity.UserJpaEntity;
 import com.clearing.netting.domain.model.Member;
 import com.clearing.netting.domain.model.NetPosition;
 import com.clearing.netting.domain.model.NettingRun;
+import com.clearing.netting.domain.model.NettingTask;
 import com.clearing.netting.domain.model.TradeObligation;
 import com.clearing.netting.domain.model.UserAccount;
 
@@ -73,6 +75,35 @@ final class PersistenceMapper {
         e.setStatus(r.getStatus());
         e.setCreatedAt(r.getCreatedAt());
         e.setFailureReason(r.getFailureReason());
+        return e;
+    }
+
+    static NettingTask toDomain(NettingTaskJpaEntity e) {
+        return new NettingTask(
+                e.getTaskId(),
+                e.getSeq(),
+                e.getSettleDate(),
+                e.getCurrency(),
+                e.getStatus(),
+                e.getRunId(),
+                e.getFailureReason(),
+                e.getCreatedAt(),
+                e.getStartedAt(),
+                e.getFinishedAt());
+    }
+
+    static NettingTaskJpaEntity toEntity(NettingTask t) {
+        NettingTaskJpaEntity e = new NettingTaskJpaEntity();
+        e.setTaskId(t.getTaskId());
+        e.setSeq(t.getSeq());
+        e.setSettleDate(t.getSettleDate());
+        e.setCurrency(t.getCurrency());
+        e.setStatus(t.getStatus());
+        e.setRunId(t.getRunId());
+        e.setFailureReason(t.getFailureReason());
+        e.setCreatedAt(t.getCreatedAt());
+        e.setStartedAt(t.getStartedAt());
+        e.setFinishedAt(t.getFinishedAt());
         return e;
     }
 
